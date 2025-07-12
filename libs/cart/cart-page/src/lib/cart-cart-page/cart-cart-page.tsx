@@ -126,6 +126,7 @@ export const CartCartPage = () => {
       ))}
       <StyledTotalLi>
         <h2>Total Hellow World</h2>
+        <div>Total</div>
         <p>
           <nx-shops-product-price
             value={getTotalCost(cartState, productsState)}
