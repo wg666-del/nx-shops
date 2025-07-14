@@ -10,3 +10,12 @@
   6、开发标准化、统一工作流
     (1)质量门禁统一：根目录配置Husky + Lint-Staged，提交时触发所有变动文件的校验 / 共享Eslint规则包：所有模块继承统一代码规范
   7、CI、CD流水线优化
+
+  代码规则校验需要考虑的问题
+    a、所有团队成员需要遵循统一的代码规范
+    b、增量校验：在开发、CI环境中都能快速的运行lint，只对改动的文件进行检查
+    c、共享统一的配置，减少维护成本
+  
+  在libs目录下创建eslint-config-common包并导出，各个子项目共享基础lint配置(extends)，也可以自定义校验规则(overrides)
+  eslint-config-common包中有宿主依赖(peerDependencies: { eslint: "^7.0.0" }), 借助pnpm中依赖提升（hoist），在pnpm-workspace.yaml
+  中配置，统一在根目录node_modules/.pnpm中安装依赖，避免各个子项目重复安装依赖，减少磁盘占用
