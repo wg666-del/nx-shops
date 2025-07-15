@@ -19,3 +19,8 @@
   在libs目录下创建eslint-config-common包并导出，各个子项目共享基础lint配置(extends)，也可以自定义校验规则(overrides)
   eslint-config-common包中有宿主依赖(peerDependencies: { eslint: "^7.0.0" }), 借助pnpm中依赖提升（hoist），在pnpm-workspace.yaml
   中配置，统一在根目录node_modules/.pnpm中安装依赖，避免各个子项目重复安装依赖，减少磁盘占用
+
+  husky + lint-staged搭配git hooks(pre-commit、commit-msg)，在pre-commit阶段进行prettier代码格式校验与eslint代码规则校验
+  在commit-msg阶段进行commit信息校验（借助commitlint根据commitlint.config.js中定义关于commit信息的规则）
+  a、符合feat/test/fix/conf/chore/refactor/doc/merge/revert规范
+  b、用Jira维护项目的话，commit信息中可以搭配Jira id，方便今后线上问题排查、问题溯源/将commit与项目信息深度绑定(jira-id-required)
