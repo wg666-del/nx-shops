@@ -3,7 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
+      - feat-setup-ci
+    branches-ignore:
+      - feat/nx-cloud/setup
   pull_request:
 
 permissions:
