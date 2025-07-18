@@ -47,7 +47,7 @@ jobs:
       - name: 部署到 Github Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: master
+          branch: gh-pages
           folder: dist
 
   if_merged:
