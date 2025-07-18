@@ -9,8 +9,8 @@ on:
     types: [opened, reopened, closed]
 
 permissions:
-  actions: read
-  contents: read
+  actions: write
+  contents: write
 
 jobs:
   main:
