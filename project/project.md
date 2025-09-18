@@ -49,3 +49,7 @@ husky + lint-staged 搭配 git hooks(pre-commit、commit-msg)，在 pre-commit �
 在 commit-msg 阶段进行 commit 信息校验（借助 commitlint 根据 commitlint.config.js 中定义关于 commit 信息的规则）
 a、符合 feat/test/fix/conf/chore/refactor/doc/merge/revert 规范
 b、用 Jira 维护项目的话，commit 信息中可以搭配 Jira id，方便今后线上问题排查、问题溯源/将 commit 与项目信息深度绑定(jira-id-required)(甚至你的分支名都可以绑定 jira id！！！)
+
+tree shaking流程图 https://i-blog.csdnimg.cn/img_convert/6e984111b868b996b8ae68c93095d0e4.webp?x-oss-process=image/format,png
+副作用 package.json -> sideEffects
+纯函数
