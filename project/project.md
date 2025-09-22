@@ -53,3 +53,8 @@ b、用 Jira 维护项目的话，commit 信息中可以搭配 Jira id，方便�
 tree shaking流程图 https://i-blog.csdnimg.cn/img_convert/6e984111b868b996b8ae68c93095d0e4.webp
 副作用 package.json -> sideEffects
 纯函数
+
+前端资源压缩对比
+tree shaking
+js代码压缩->terser css代码压缩->cssnano 构建阶段
+gzip->LZ77算法、哈夫曼编码 brotli->压缩率更高、兼容性不如gzip 网络传输阶段
