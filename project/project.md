@@ -58,3 +58,8 @@ tree shaking流程图 https://i-blog.csdnimg.cn/img_convert/6e984111b868b996b8ae
 tree shaking
 js代码压缩->terser css代码压缩->cssnano 构建阶段
 gzip->LZ77算法、哈夫曼编码 brotli->压缩率更高、兼容性不如gzip 网络传输阶段
+
+esbuild追求速度优先，适用于 开发环境&速度优先
+terser深度的AST分析，更激进的Tree-Shaking，且支持代码混淆，适用于生产环境，产物生成的体积优先
+AST -> ESTree规范 -> 解析器、转换器、代码生成器都会遵循同一套规范
+ESTree规范: 基于ECMAScript规范定义标准的AST结构
