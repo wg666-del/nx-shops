@@ -12,7 +12,7 @@ React 错误边界(Error Boundary)组件捕获，优雅的错误处理，而不�
 (1)、图片加载会影响 js 加载么，图片加载影响的是页面加载的哪个环节
 不会，domContentLoaded 与 window.onload 中，图片加载只会影响页面 load 事件
 (2)、图片懒加载的原理
-img标签设置loading="lazy"或者用IntersectionObserver这个API
+img 标签设置 loading="lazy"或者用 IntersectionObserver 这个 API
 loading="lazy"缺点：
 a、加载时机不稳定，在各个浏览器表现不一致
 b、图片加载状态无法被监听，无法使用默认占位图
@@ -22,7 +22,7 @@ b、图片加载状态无法被监听，无法使用默认占位图
 1 个小图片用 http 请求资源，得不偿失；base64 编码之后文件体积会增大 1/3 左右，过大的图片编码之后会增大 html 或 css 文件的体积，导致关键渲染路径变慢；一般是小于 10kb 左右
 webpack 中用 url-loader 的 limit：10 \* 1024 将小图片转为 base64
 (5)、图片格式：jpg、png、WebP,WebP 同时支持有损压缩与无损压缩，有损压缩下，比 jpg 体积更小；无损压缩下，比 png 体积更小;压缩效率更高
-(6)、开发过程中会经历 从蓝湖下载图片->手动压缩->上传 OSS->复制地址，为简化图片资源上传流程，自定义 webpack 插件，oss-upload-webpack-plugin，在 afterEmit 这个钩子上借助ali-oss SDK上传图片资源到阿里云 OSS
+(6)、开发过程中会经历 从蓝湖下载图片->手动压缩->上传 OSS->复制地址，为简化图片资源上传流程，自定义 webpack 插件，oss-upload-webpack-plugin，在 afterEmit 这个钩子上借助 ali-oss SDK 上传图片资源到阿里云 OSS
 
 二、xx 数据中台
 1、阐述项目结构
@@ -50,16 +50,23 @@ husky + lint-staged 搭配 git hooks(pre-commit、commit-msg)，在 pre-commit �
 a、符合 feat/test/fix/conf/chore/refactor/doc/merge/revert 规范
 b、用 Jira 维护项目的话，commit 信息中可以搭配 Jira id，方便今后线上问题排查、问题溯源/将 commit 与项目信息深度绑定(jira-id-required)(甚至你的分支名都可以绑定 jira id！！！)
 
-tree shaking流程图 https://i-blog.csdnimg.cn/img_convert/6e984111b868b996b8ae68c93095d0e4.webp
+tree shaking 流程图 https://i-blog.csdnimg.cn/img_convert/6e984111b868b996b8ae68c93095d0e4.webp
 副作用 package.json -> sideEffects
 纯函数
 
 前端资源压缩对比
 tree shaking
-js代码压缩->terser css代码压缩->cssnano 构建阶段
-gzip->LZ77算法、哈夫曼编码 brotli->压缩率更高、兼容性不如gzip 网络传输阶段
+js 代码压缩->terser css 代码压缩->cssnano 构建阶段
+gzip->LZ77 算法、哈夫曼编码 brotli->压缩率更高、兼容性不如 gzip 网络传输阶段
 
-esbuild追求速度优先，适用于 开发环境&速度优先
-terser深度的AST分析，更激进的Tree-Shaking，且支持代码混淆，适用于生产环境，产物生成的体积优先
-AST -> ESTree规范 -> 解析器、转换器、代码生成器都会遵循同一套规范
-ESTree规范: 基于ECMAScript规范定义标准的AST结构
+esbuild 追求速度优先，适用于 开发环境&速度优先
+terser 深度的 AST 分析，更激进的 Tree-Shaking，且支持代码混淆，适用于生产环境，产物生成的体积优先
+AST -> ESTree 规范 -> 解析器、转换器、代码生成器都会遵循同一套规范
+ESTree 规范: 基于 ECMAScript 规范定义标准的 AST 结构
+Tree-Shaking: 鼓励写纯函数
+ESM/CommonJS 不同点 ESM 加载 CommonJS 模块？？？(import xxx from 'yyy') CommonJS 加载 ESM 模块？？？(import('zzz'))
+2种模块代码互相转换？？？(babel)
+
+script标签
+  crossOrigin属性：anonymous 适用于公共CDN资源 use-credentials 需要认证的资源 CORS策略
+  不设置该属性：window.onerror无法捕获到具体错误信息，只有Script error. 设置对于错误监控有用
