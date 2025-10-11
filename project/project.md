@@ -1,6 +1,6 @@
 项目核心要点：
 一、黑金 VIP 开卡核心链路性能优化
-1、路由懒加载
+1、代码分割方案(路由懒加载)
 (1)react 项目中通过 React.lazy(() => import('./about'))的方式懒加载非首屏组件
 (2)打包工具(webpack)识别 import()会将懒加载的组件单独打包成一个异步 chunk（webpack 中共有：entry chunk 入口 chunk、async chunk 异步 chunk、runtime chunk 打包工具运行时注入的代码、split chunk 四种）
 (3)本质是一种代码分割技术(code splitting)，合理的分割代码可以使首屏体积减小、提高资源缓存命中率(如只改变 about 页面的业务代码，首页的缓存不会被影响)
@@ -15,7 +15,7 @@
 (5)import()函数返回一个 Promise，Promise 状态会被<Suspense fallback={<div>loading...</div>} />组件捕获,pending 时渲染 fallback 中的内容,resolved 时会加载组件内容,rejected 时会被
 React 错误边界(Error Boundary)组件捕获，优雅的错误处理，而不会导致整个应用崩溃
 
-2、非首屏图片懒加载、小图片用 base64 嵌入
+2、图片资源的处理(非首屏图片懒加载、小图片用 base64 嵌入)
 (1)、图片加载会影响 js 加载么，图片加载影响的是页面加载的哪个环节
 不会，domContentLoaded 与 window.onload 中，图片加载只会影响页面 load 事件
 (2)、图片懒加载的原理
@@ -30,6 +30,13 @@ b、图片加载状态无法被监听，无法使用默认占位图
 webpack 中用 url-loader 的 limit：10 \* 1024 将小图片转为 base64
 (5)、图片格式：jpg、png、WebP,WebP 同时支持有损压缩与无损压缩，有损压缩下，比 jpg 体积更小；无损压缩下，比 png 体积更小;压缩效率更高
 (6)、开发过程中会经历 从蓝湖下载图片->手动压缩->上传 OSS->复制地址，为简化图片资源上传流程，自定义 webpack 插件，oss-upload-webpack-plugin，在 afterEmit 这个钩子上借助 ali-oss SDK 上传图片资源到阿里云 OSS
+
+3、前端资源的缓存策略
+
+4、前端资源压缩对比
+(1)、tree shaking
+(2)、js 代码压缩->terser css 代码压缩->cssnano 构建阶段(js代码压缩 VS js代码混淆)
+(3)、gzip->LZ77 算法、哈夫曼编码 brotli->压缩率更高、兼容性不如 gzip 网络传输阶段
 
 二、xx 数据中台
 1、阐述项目结构
@@ -61,11 +68,6 @@ tree shaking 流程图 https://i-blog.csdnimg.cn/img_convert/6e984111b868b996b8a
 副作用 package.json -> sideEffects
 纯函数
 
-前端资源压缩对比
-tree shaking
-js 代码压缩->terser css 代码压缩->cssnano 构建阶段
-gzip->LZ77 算法、哈夫曼编码 brotli->压缩率更高、兼容性不如 gzip 网络传输阶段
-
 esbuild 追求速度优先，适用于 开发环境&速度优先
 terser 深度的 AST 分析，更激进的 Tree-Shaking，且支持代码混淆，适用于生产环境，产物生成的体积优先
 AST -> ESTree 规范 -> 解析器、转换器、代码生成器都会遵循同一套规范
@@ -77,3 +79,6 @@ ESM/CommonJS 不同点 ESM 加载 CommonJS 模块？？？(import xxx from 'yyy'
 script标签
   crossOrigin属性：anonymous 适用于公共CDN资源 use-credentials 需要认证的资源 CORS策略
   不设置该属性：window.onerror无法捕获到具体错误信息，只有Script error. 设置对于错误监控有用
+
+webpack相关
+webpack5的持久化缓存很好，那么解决的问题是什么？有哪些缺点？为什么没有默认开启？memory和fileSystem的使用场景是啥?
