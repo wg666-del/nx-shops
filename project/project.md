@@ -4,6 +4,13 @@
 (1)react 项目中通过 React.lazy(() => import('./about'))的方式懒加载非首屏组件
 (2)打包工具(webpack)识别 import()会将懒加载的组件单独打包成一个异步 chunk（webpack 中共有：entry chunk 入口 chunk、async chunk 异步 chunk、runtime chunk 打包工具运行时注入的代码、split chunk 四种）
 (3)本质是一种代码分割技术(code splitting)，合理的分割代码可以使首屏体积减小、提高资源缓存命中率(如只改变 about 页面的业务代码，首页的缓存不会被影响)
+关于拆包，我们是有一个标准的（splitChunksPlugin）
+    既要避免包拆分的过细，又要避免有过大或者过小的包出现，关键是把握拆分的粒度
+    a、初始加载的包大小合理（通常建议每个包在100KB以内，具体取决于项目）
+    b、充分利用缓存，将不经常变动的代码单独打包（如node_modules中的包）
+    c、避免拆分过细导致过多的请求（如一个小于10KB的包是没有必要单独拆分出来的，被打包进不同的chunk也不会有太大影响）
+    d、按需加载的代码在需要的时候才加载
+    minChunks:2 被入口包引用超过2次开始尝试分包、minSize: 20 * 1024 小于20KB不考虑单独分包、maxSize: 100 * 1024 大于100KB继续尝试分包、test命中条件越精确优先级越高，即priority越大
 (4)可能会涉及到 History 和 hash 两种路由模式，History 模式下 404 问题如何解决？(Nginx 中配置 try_files $uri $uri/ index.html)
 (5)import()函数返回一个 Promise，Promise 状态会被<Suspense fallback={<div>loading...</div>} />组件捕获,pending 时渲染 fallback 中的内容,resolved 时会加载组件内容,rejected 时会被
 React 错误边界(Error Boundary)组件捕获，优雅的错误处理，而不会导致整个应用崩溃
