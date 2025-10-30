@@ -32,6 +32,7 @@ webpack 中用 url-loader 的 limit：10 \* 1024 将小图片转为 base64
 (6)、开发过程中会经历 从蓝湖下载图片->手动压缩->上传 OSS->复制地址，为简化图片资源上传流程，自定义 webpack 插件，oss-upload-webpack-plugin，在 afterEmit 这个钩子上借助 ali-oss SDK 上传图片资源到阿里云 OSS
 
 3、前端资源的缓存策略
+  提高资源缓存命中率？CDN开启忽略参数缓存，共享同一份缓存内容(cacheKey)
 
 4、前端资源压缩对比
 (1)、tree shaking
@@ -82,3 +83,6 @@ script标签
 
 webpack相关
 webpack5的持久化缓存很好，那么解决的问题是什么？有哪些缺点？为什么没有默认开启？memory和fileSystem的使用场景是啥?
+
+PV(Page View) 反映页面曝光热度
+UV(Unique Visitor) 反映产品真实的用户规模
