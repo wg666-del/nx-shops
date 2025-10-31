@@ -33,6 +33,9 @@ webpack 中用 url-loader 的 limit：10 \* 1024 将小图片转为 base64
 
 3、前端资源的缓存策略
   提高资源缓存命中率？CDN开启忽略参数缓存，共享同一份缓存内容(cacheKey)
+(1)、页面(index.html)会频繁更新，静态资源则相对稳定，所以index.html采用协商缓存，css、js等静态资源采用强缓存，缓存时间为1个月
+(2)、缓存还未到期发现线上有bug，想更新某个静态资源文件怎么办？最开始我们是加版本号，version参数，每次发版更新version
+(3)、后来发现每次发版所有资源的缓存都失效了，文件名+hash解决（hash、chunkhash、contenthash）
 
 4、前端资源压缩对比
 (1)、tree shaking
