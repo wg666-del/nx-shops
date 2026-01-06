@@ -89,3 +89,19 @@ webpack5的持久化缓存很好，那么解决的问题是什么？有哪些缺
 
 PV(Page View) 反映页面曝光热度
 UV(Unique Visitor) 反映产品真实的用户规模
+
+微前端项目需要考虑的点：
+隔离：js沙箱 css隔离 权限隔离
+路由 主/子应用路由 应用间通信
+全局状态管理 依赖管理
+接入成本 团队技术储备
+兼顾性能 用户使用体验统一
+
+微前端场景下使用Webpack的externals实现主应用与各子应用间依赖共享
+假设有10个子应用，每个子应用都用到React框架的库，那么会存在React被重复打包10次，资源浪费
+主应用使用externals在运行时从外部CDN加载React库，<script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+优点：
+减少打包体积，将一些不变的第三方库排除在bundle之外，可以显著减少bundle的体积，微前端场景下共享同一份React库，版本也统一；
+加速构建：由于不需要处理这里外部模块，构建时间会缩短
+充分利用缓存：用户可以通过CDN缓存这些资源，无需重复发起网络请求。例如在某次版本发布后，未使用externals的情况下，会重复下载整个bundle，而使用了externals的情况下，未变动的第三方库利用浏览器缓存无需重复发起网络请求，只用请求变动的业务代码即可。
+不适合externals的情况: 体积小且频繁更新的代码库，缓存意义不大
