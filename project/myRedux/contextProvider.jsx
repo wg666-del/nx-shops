@@ -14,7 +14,7 @@ const ContextProvider = (props) => {
       case 'reset':
         return init(initCount);
       default:
-        throw Error('error .');
+        throw new Error('error .');
     }
   };
 
