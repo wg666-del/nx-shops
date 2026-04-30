@@ -1,7 +1,7 @@
 function debounce(fn, delay) {
   let timer = null;
   return function (...args) {
-    if (timer) return clearTimeout(timer);
+    if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply(this, args);
     }, delay);
@@ -14,7 +14,7 @@ function debounceImmediate(fn, delay, immediate = false) {
   return function (...args) {
     const callNow = immediate && !timer;
     if (callNow) fn.apply(this, args);
-    if (timer) return clearTimeout(timer);
+    if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply(this, args);
     }, delay);
@@ -36,7 +36,7 @@ function throttle(fn, delay) {
 function throttleImmediate(fn, delay) {
   let previous = 0;
   return function (...args) {
-    const now = performance.now();
+    const now = Date.now();
     if (now - previous >= delay) {
       previous = now;
       fn.apply(this, args);
